@@ -1,0 +1,152 @@
+{
+  "tasks": {
+    "planned": [
+      {
+        "id": 4,
+        "name": "Přidání dark mode",
+        "description": "Implementace tmavého režimu do aplikace.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-05"
+      },
+      {
+        "id": 7,
+        "name": "Vytvoření obrazovky pro nastavení postavy",
+        "description": "Umožnit uživatelům vytvářet a spravovat postavy pomocí existujících komponent.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-08-28"
+      },
+      {
+        "id": 8,
+        "name": "Napojení postavy na mapové funkce",
+        "description": "Propojit určité schopnosti postavy s jejími interakcemi na mapě.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-03"
+      },
+      {
+        "id": 9,
+        "name": "Úprava úkolového systému pro questové linie",
+        "description": "Upravit současný úkolový systém, aby umožňoval zadávání úkolů specifických pro postavy a týmy.",
+        "assigned_to": "Vývojový tým C",
+        "due_date": "2024-09-05"
+      },
+      {
+        "id": 10,
+        "name": "Přidání neseberatelných objektů a herních fází",
+        "description": "Implementace objektů, které slouží jako vstupy do speciálních herních fází.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-10"
+      },
+      {
+        "id": 11,
+        "name": "Automatické nasazování zbroje a zbraní",
+        "description": "Automatické výměny zbroje a zbraní za lepší verze.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-12"
+      },
+      {
+        "id": 12,
+        "name": "Kniha úkolů a informace o postavě",
+        "description": "Vytvoření knihy, která bude obsahovat sekce pro „Postava“, „Inventář“, „Aktivní úkoly“ a „Dokončené úkoly“.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-15"
+      },
+      {
+        "id": 13,
+        "name": "Integrace magických nauk a rituálů",
+        "description": "Implementace magických nauk, rituálů a zasvěcení inspirovaných esoterickými tradicemi.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-20"
+      },
+      {
+        "id": 14,
+        "name": "Rozšíření systému postav o vrozené a získané schopnosti",
+        "description": "Přidání podpory pro vrozené schopnosti a získané schopnosti.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-22"
+      },
+      {
+        "id": 15,
+        "name": "Vytvoření knihy magických nauk",
+        "description": "Vytvoření knihy, která bude hráče provázet magickými naukami.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-25"
+      },
+      {
+        "id": 16,
+        "name": "Integrace AR pro rituály a zasvěcení",
+        "description": "Implementace AR pro provádění rituálů a zasvěcení v reálném světě.",
+        "assigned_to": "Vývojový tým C",
+        "due_date": "2024-09-30"
+      },
+      {
+        "id": 17,
+        "name": "Implementace systému pro postavy, předměty, inventář a souboje",
+        "description": "Vytvoření systému pro správu postav, vybavení a soubojů.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-22"
+      },
+      {
+        "id": 18,
+        "name": "Vstup do podzemí",
+        "description": "Implementace obrazovky a mechanik pro vstup do podzemí a generování soubojů.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-08-30"
+      },
+      {
+        "id": 19,
+        "name": "Správa uložených her",
+        "description": "Přidání funkcí pro export, import a správu uložených her, včetně podpory QR kódů.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-10"
+      }
+    ],
+    "in_progress": [
+      {
+        "id": 11,
+        "name": "Automatické nasazování zbroje a zbraní",
+        "description": "Automatické výměny zbroje a zbraní za lepší verze.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-12"
+      },
+      {
+        "id": 5,
+        "name": "Mazání dat",
+        "description": "Implementace funkcionality pro mazání bodů zájmu.",
+        "assigned_to": "Vývojový tým B",
+        "deadline": "2024-08-25"
+      }
+    ],
+    "to_test": [
+      {
+        "id": 6,
+        "name": "Testování mapy a bodů zájmu",
+        "description": "Otestovat přidávání, mazání a navigaci mezi body zájmu na mapě.",
+        "assigned_to": "Testovací tým C",
+        "deadline": "2024-08-23"
+      }
+    ],
+    "completed": [
+      {
+        "id": 1,
+        "name": "Implementace i18n",
+        "description": "Přidání podpory pro mezinárodní lokalizaci.",
+        "assigned_to": "Vývojový tým A",
+        "completed_date": "2024-08-20"
+      },
+      {
+        "id": 2,
+        "name": "Vytvoření obrazovky pro výběr postavy",
+        "description": "Implementace obrazovky pro výběr a zobrazení detailů postavy.",
+        "assigned_to": "Vývojový tým B",
+        "completed_date": "2024-08-21"
+      },
+      {
+        "id": 3,
+        "name": "Integrace inventáře a vybavení postavy",
+        "description": "Propojení inventáře s postavou a umožnění vybavování zbraní a zbroje.",
+        "assigned_to": "Vývojový tým C",
+        "completed_date": "2024-08-22"
+      }
+    ]
+  }
+}

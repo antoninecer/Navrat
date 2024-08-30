@@ -1,0 +1,2 @@
+tar --exclude='old' --exclude='node_modules' --exclude='.expo' --exclude='package-lock.json' --exclude='backup' -czvf archive.tar.gz .
+

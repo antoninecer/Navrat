@@ -1,0 +1,2362 @@
+===== Root Directory =====
+----- File: ./App.js -----
+import React from "react";
+import "intl-pluralrules";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./screens/HomeScreen";
+import ReturnPointScreen from "./screens/ReturnPointScreen";
+import InterestPointScreen from "./screens/InterestPointScreen";
+import PhotoViewerScreen from "./screens/PhotoViewerScreen";
+import ActionsMenuScreen from "./screens/ActionsMenuScreen";
+import PlaceObjectScreen from "./screens/PlaceObjectScreen";
+import SearchAreaScreen from "./screens/SearchAreaScreen";
+import InventoryScreen from "./screens/InventoryScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+import MapScreen from "./screens/CurrentLocationMapScreen";
+import KompasScreen from "./screens/KompasScreen";
+import EditPointScreen from "./screens/EditPointScreen";
+import TaskList from "./components/TaskList";
+import { ThemeProvider } from "./components/ThemeContext";
+import CharacterSettingsScreen from "./screens/CharacterSettingsScreen";
+import CharacterSelectionScreen from "./screens/CharacterSelectionScreen";
+import CharacterDetailScreen from "./screens/CharacterDetailScreen";
+import CharacterCreationScreen from "./screens/CharacterCreationScreen";
+import AboutScreen from "./screens/AboutScreen";
+import DungeonScreen from "./screens/DungeonScreen";
+import EquipmentScreen from "./screens/EquipmentScreen";
+import CharacterEquipmentScreen from "./screens/CharacterEquipmentScreen";
+const Stack = createStackNavigator();
+export default function App() {
+  return (
+    <ThemeProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Return Point" component={ReturnPointScreen} />
+          <Stack.Screen name="Interest Point" component={InterestPointScreen} />
+          <Stack.Screen name="Photo Viewer" component={PhotoViewerScreen} />
+          <Stack.Screen name="Actions Menu" component={ActionsMenuScreen} />
+          <Stack.Screen name="Place Object" component={PlaceObjectScreen} />
+          <Stack.Screen name="Search Area" component={SearchAreaScreen} />
+          <Stack.Screen name="Inventory" component={InventoryScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />
+          <Stack.Screen name="DynamicMap" component={MapScreen} />
+          <Stack.Screen name="Kompas" component={KompasScreen} />
+          <Stack.Screen name="Edit Point" component={EditPointScreen} />
+          <Stack.Screen name="Tasks" component={TaskList} />
+          <Stack.Screen
+            name="CharacterEquipment"
+            component={CharacterEquipmentScreen}
+          />
+          <Stack.Screen
+            name="CharacterCreation"
+            component={CharacterCreationScreen}
+          />
+          <Stack.Screen
+            name="Character Settings"
+            component={CharacterSettingsScreen}
+          />
+          <Stack.Screen
+            name="CharacterSelection"
+            component={CharacterSelectionScreen}
+          />
+          <Stack.Screen
+            name="CharacterDetail"
+            component={CharacterDetailScreen}
+          />
+          <Stack.Screen name="About" component={AboutScreen} />
+          <Stack.Screen name="DungeonScreen" component={DungeonScreen} />
+          <Stack.Screen name="Equipment" component={EquipmentScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
+  );
+}
+
+
+----- File: ./app.config.js -----
+import "dotenv/config";
+export default {
+  expo: {
+    name: "Return",
+    slug: "Return",
+    version: "1.0.7",
+    orientation: "portrait",
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "light",
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "contain",
+      backgroundColor: "#ffffff",
+    },
+    ios: {
+      supportsTablet: true,
+      infoPlist: {
+        NSLocationWhenInUseUsageDescription:
+          "This app uses your location to show the return point on the map.",
+        NSCameraUsageDescription:
+          "This app uses your camera to take photos of interesting points.",
+      },
+      bundleIdentifier: "com.antoninecer.Return",
+      config: {
+        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY_IOS,
+      },
+    },
+    android: {
+      permissions: ["ACCESS_FINE_LOCATION", "CAMERA"],
+      adaptiveIcon: {
+        foregroundImage: "./assets/adaptive-icon.png",
+        backgroundColor: "#ffffff",
+      },
+      package: "com.antoninecer.Return",
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY_ANDROID,
+        },
+      },
+    },
+    web: {
+      favicon: "./assets/favicon.png",
+    },
+    extra: {
+      eas: {
+        projectId: "272b283e-70c2-4382-ad46-57c13fd9acde",
+      },
+    },
+  },
+};
+
+
+----- File: ./babel.config.js -----
+module.exports = function(api) {
+  api.cache(true);
+  return {
+    presets: ['babel-preset-expo', '@babel/preset-react'],  // Přidáno '@babel/preset-react'
+  };
+};
+
+
+----- File: ./i18n.js -----
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: {
+        Name: "Name",
+        Race: "Race",
+        Description: "Description",
+        Level: "Level",
+        Strength: "Strength",
+        Defense: "Defense",
+        Attack: "Attack",
+        Speed: "Speed",
+        Luck: "Luck",
+        Courage: "Courage",
+        Health: "Health",
+        Mana: "Mana",
+        Class: "Class",
+      },
+    },
+    cs: {
+      translation: {
+        Name: "Jméno",
+        Race: "Rasa",
+        Description: "Popis",
+        Level: "Úroveň",
+        Strength: "Síla",
+        Defense: "Obrana",
+        Attack: "Útok",
+        Speed: "Rychlost",
+        Luck: "Štěstí",
+        Courage: "Odvaha",
+        Health: "Zdraví",
+        Mana: "Mana",
+        Class: "Povolání",
+      },
+    },
+  },
+  lng: "en", // Default language
+  fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
+});
+export default i18n;
+
+
+----- File: ./metro.config.js -----
+/**
+ * Metro configuration for React Native
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
+const { getDefaultConfig } = require('@expo/metro-config');
+const defaultConfig = getDefaultConfig(__dirname);
+module.exports = {
+  ...defaultConfig, // Rozšíření o výchozí konfiguraci Expo
+  transformer: {
+    ...defaultConfig.transformer,
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+  },
+  resolver: {
+    ...defaultConfig.resolver,
+    assetExts: defaultConfig.resolver.assetExts.filter(ext => ext !== 'svg').concat(['db', 'mp3', 'ttf', 'obj', 'vrm', 'mp4', 'jpg', 'png']),
+    sourceExts: [...defaultConfig.resolver.sourceExts, 'svg'],
+  },
+};
+
+
+----- File: ./eas.json -----
+{
+  "cli": {
+    "version": ">= 10.2.2"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
+    },
+    "production": {
+      "env": {
+        "NPM_CONFIG_LEGACY_PEER_DEPS": "true"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
+
+
+----- File: ./package.json -----
+{
+  "name": "return",
+  "version": "1.0.0",
+  "main": "expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-picker/picker": "^2.7.5",
+    "@react-navigation/native": "^6.1.18",
+    "@react-navigation/stack": "^6.4.1",
+    "expo": "~51.0.28",
+    "expo-document-picker": "~12.0.2",
+    "expo-file-system": "~17.0.1",
+    "expo-image-manipulator": "~12.0.5",
+    "expo-image-picker": "~15.0.7",
+    "expo-location": "~17.0.1",
+    "expo-sensors": "~13.0.9",
+    "expo-sharing": "~12.0.1",
+    "expo-status-bar": "~1.12.1",
+    "expo-updates": "~0.25.22",
+    "i18next": "^23.14.0",
+    "intl-pluralrules": "^2.0.1",
+    "jszip": "^3.10.1",
+    "leaflet": "^1.9.4",
+    "react": "^18.2.0",
+    "react-i18next": "^15.0.1",
+    "react-native": "^0.74.5",
+    "react-native-gesture-handler": "^2.16.1",
+    "react-native-maps": "^1.14.0",
+    "react-native-reanimated": "^3.10.1",
+    "react-native-safe-area-context": "^4.10.5",
+    "react-native-screens": "^3.31.1",
+    "react-native-svg-transformer": "^1.5.0",
+    "react-native-webview": "^13.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-react": "^7.24.7",
+    "@react-native/js-polyfills": "^0.75.1",
+    "@react-native/metro-babel-transformer": "^0.75.1",
+    "@react-native/metro-config": "^0.75.1",
+    "eslint": "^9.9.0",
+    "glob": "^11.0.0",
+    "metro-config": "^0.80.10",
+    "metro-react-native-babel-preset": "^0.77.0",
+    "metro-runtime": "^0.80.10"
+  },
+  "private": true
+}
+
+
+----- File: ./pokrok.json -----
+{
+  "tasks": {
+    "planned": [
+      {
+        "id": 4,
+        "name": "Přidání dark mode",
+        "description": "Implementace tmavého režimu do aplikace.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-05"
+      },
+      {
+        "id": 7,
+        "name": "Vytvoření obrazovky pro nastavení postavy",
+        "description": "Umožnit uživatelům vytvářet a spravovat postavy pomocí existujících komponent.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-08-28"
+      },
+      {
+        "id": 8,
+        "name": "Napojení postavy na mapové funkce",
+        "description": "Propojit určité schopnosti postavy s jejími interakcemi na mapě.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-03"
+      },
+      {
+        "id": 9,
+        "name": "Úprava úkolového systému pro questové linie",
+        "description": "Upravit současný úkolový systém, aby umožňoval zadávání úkolů specifických pro postavy a týmy.",
+        "assigned_to": "Vývojový tým C",
+        "due_date": "2024-09-05"
+      },
+      {
+        "id": 10,
+        "name": "Přidání neseberatelných objektů a herních fází",
+        "description": "Implementace objektů, které slouží jako vstupy do speciálních herních fází.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-10"
+      },
+      {
+        "id": 11,
+        "name": "Automatické nasazování zbroje a zbraní",
+        "description": "Automatické výměny zbroje a zbraní za lepší verze.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-12"
+      },
+      {
+        "id": 12,
+        "name": "Kniha úkolů a informace o postavě",
+        "description": "Vytvoření knihy, která bude obsahovat sekce pro „Postava“, „Inventář“, „Aktivní úkoly“ a „Dokončené úkoly“.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-15"
+      },
+      {
+        "id": 13,
+        "name": "Integrace magických nauk a rituálů",
+        "description": "Implementace magických nauk, rituálů a zasvěcení inspirovaných esoterickými tradicemi.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-20"
+      },
+      {
+        "id": 14,
+        "name": "Rozšíření systému postav o vrozené a získané schopnosti",
+        "description": "Přidání podpory pro vrozené schopnosti a získané schopnosti.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-22"
+      },
+      {
+        "id": 15,
+        "name": "Vytvoření knihy magických nauk",
+        "description": "Vytvoření knihy, která bude hráče provázet magickými naukami.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-25"
+      },
+      {
+        "id": 16,
+        "name": "Integrace AR pro rituály a zasvěcení",
+        "description": "Implementace AR pro provádění rituálů a zasvěcení v reálném světě.",
+        "assigned_to": "Vývojový tým C",
+        "due_date": "2024-09-30"
+      },
+      {
+        "id": 17,
+        "name": "Implementace systému pro postavy, předměty, inventář a souboje",
+        "description": "Vytvoření systému pro správu postav, vybavení a soubojů.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-09-22"
+      },
+      {
+        "id": 18,
+        "name": "Vstup do podzemí",
+        "description": "Implementace obrazovky a mechanik pro vstup do podzemí a generování soubojů.",
+        "assigned_to": "Vývojový tým B",
+        "due_date": "2024-08-30"
+      },
+      {
+        "id": 19,
+        "name": "Správa uložených her",
+        "description": "Přidání funkcí pro export, import a správu uložených her, včetně podpory QR kódů.",
+        "assigned_to": "Vývojový tým A",
+        "due_date": "2024-09-10"
+      }
+    ],
+    "in_progress": [
+      {
+        "id": 11,
+        "name": "Automatické nasazování zbroje a zbraní",
+        "description": "Automatické výměny zbroje a zbraní za lepší verze.",
+        "assigned_to": "Vývojový tým D",
+        "due_date": "2024-09-12"
+      },
+      {
+        "id": 5,
+        "name": "Mazání dat",
+        "description": "Implementace funkcionality pro mazání bodů zájmu.",
+        "assigned_to": "Vývojový tým B",
+        "deadline": "2024-08-25"
+      }
+    ],
+    "to_test": [
+      {
+        "id": 6,
+        "name": "Testování mapy a bodů zájmu",
+        "description": "Otestovat přidávání, mazání a navigaci mezi body zájmu na mapě.",
+        "assigned_to": "Testovací tým C",
+        "deadline": "2024-08-23"
+      }
+    ],
+    "completed": [
+      {
+        "id": 1,
+        "name": "Implementace i18n",
+        "description": "Přidání podpory pro mezinárodní lokalizaci.",
+        "assigned_to": "Vývojový tým A",
+        "completed_date": "2024-08-20"
+      },
+      {
+        "id": 2,
+        "name": "Vytvoření obrazovky pro výběr postavy",
+        "description": "Implementace obrazovky pro výběr a zobrazení detailů postavy.",
+        "assigned_to": "Vývojový tým B",
+        "completed_date": "2024-08-21"
+      },
+      {
+        "id": 3,
+        "name": "Integrace inventáře a vybavení postavy",
+        "description": "Propojení inventáře s postavou a umožnění vybavování zbraní a zbroje.",
+        "assigned_to": "Vývojový tým C",
+        "completed_date": "2024-08-22"
+      }
+    ]
+  }
+}
+
+
+{"planned": ["Review and fix the item weight handling for equipment", "Ensure all items have properly defined weight attributes", "Implement level-based armor and weapon capacity scaling"], "in_progress": ["Debugging the Character.js to properly handle equipment with weight", "Refactor the DungeonScreen to calculate character and enemy power accurately"], "to_test": ["Verify that equipping items works correctly with the updated weight calculations", "Ensure the character's stats update correctly when equipping and unequipping items"], "completed": ["Refactor Character.js to simplify equipment handling", "Integrate character power calculation in DungeonScreen", "Fix initial errors related to uninitialized character in InventoryScreen"]}
+
+
+===== Directory: components =====
+----- File: components/AddTask.js -----
+import React, { useState } from "react";
+import { View, TextInput, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export default function AddTask({ navigation }) {
+  const [taskDescription, setTaskDescription] = useState("");
+  const handleAddTask = async () => {
+    const newTask = {
+      id: Date.now(),
+      description: taskDescription,
+      completed: false,
+    };
+    const storedTasks = await AsyncStorage.getItem("tasks");
+    const tasks = storedTasks ? JSON.parse(storedTasks) : [];
+    tasks.push(newTask);
+    await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
+    navigation.goBack();
+  };
+  return (
+    <View>
+      <TextInput
+        placeholder="Popis úkolu"
+        value={taskDescription}
+        onChangeText={setTaskDescription}
+      />
+      <Button title="Přidat úkol" onPress={handleAddTask} />
+    </View>
+  );
+}
+
+
+----- File: components/CameraComponent.js -----
+
+
+----- File: components/DeleteAllPoints.js -----
+// components/DeleteAllPoints.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
+export const deleteAllPoints = async (clearStorageCallback) => {
+  showConfirmationDialog(
+    "Smazat všechny body?",
+    "Opravdu chcete smazat všechny body zájmu? Tato akce je nevratná.",
+    async () => {
+      try {
+        await clearStorageCallback();
+        Alert.alert("Úspěch", "Všechny body byly smazány.");
+      } catch (error) {
+        Alert.alert("Chyba", "Došlo k chybě při mazání bodů.");
+        console.error("Delete error:", error);
+      }
+    }
+  );
+};
+const showConfirmationDialog = (title, message, onConfirm) => {
+  Alert.alert(
+    title,
+    message,
+    [
+      {
+        text: "Zrušit",
+        style: "cancel",
+      },
+      {
+        text: "Ano",
+        onPress: onConfirm,
+      },
+    ],
+    { cancelable: true }
+  );
+};
+
+
+----- File: components/GMapModule.js -----
+import React, { useEffect, useState, useRef } from "react";
+import MapView, { Marker } from "react-native-maps";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import * as Location from "expo-location";
+export default function GMapModule({
+  points = [],
+  returnPoint = null,
+  onMarkerClick,
+  setMapCenter,
+}) {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const mapRef = useRef(null);
+  const setMapCenterFunc = (latitude, longitude) => {
+    if (mapRef.current) {
+      const currentRegion = mapRef.current.__lastRegion;
+      mapRef.current.animateToRegion({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: currentRegion?.latitudeDelta || 0.0922,
+        longitudeDelta: currentRegion?.longitudeDelta || 0.0421,
+      });
+    }
+  };
+  useEffect(() => {
+    let locationSubscription;
+    const startTrackingLocation = async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          console.log("Permission to access location was denied");
+          return;
+        }
+        locationSubscription = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.High,
+            timeInterval: 1000,
+            distanceInterval: 1,
+          },
+          (newLocation) => {
+            setLocation(newLocation.coords);
+            if (mapRef.current) {
+              mapRef.current.animateToRegion({
+                latitude: newLocation.coords.latitude,
+                longitude: newLocation.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              });
+            }
+          }
+        );
+      } catch (error) {
+        setErrorMsg("Error getting location");
+        console.error("Error getting location:", error);
+      }
+    };
+    startTrackingLocation();
+    if (setMapCenter) {
+      setMapCenter(setMapCenterFunc);
+    }
+    return () => {
+      if (locationSubscription) {
+        locationSubscription.remove();
+      }
+    };
+  }, [points, returnPoint]);
+  if (!location) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading map...</Text>
+        {errorMsg ? <Text>{errorMsg}</Text> : null}
+      </View>
+    );
+  }
+  return (
+    <View style={styles.container}>
+      <MapView
+        ref={mapRef}
+        provider={MapView.PROVIDER_GOOGLE}
+        style={styles.map}
+        initialRegion={{
+          latitude: location.latitude,
+          longitude: location.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+        <Marker
+          coordinate={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+          }}
+          title="You are here"
+          pinColor="green"
+          zIndex={1000} // Aktuální pozice je vždy nad ostatními
+        />
+        {returnPoint && (
+          <Marker
+            coordinate={{
+              latitude: returnPoint.latitude,
+              longitude: returnPoint.longitude,
+            }}
+            title="Return Point"
+            pinColor="red"
+          />
+        )}
+        {points.map((point, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: point.location.latitude,
+              longitude: point.location.longitude,
+            }}
+            title={point.description || "No Description"}
+            description={point.detailedDescription || ""}
+            pinColor="blue"
+            onPress={() => {
+              if (onMarkerClick) {
+                onMarkerClick(index, point);
+              }
+            }}
+          />
+        ))}
+      </MapView>
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+});
+
+
+----- File: components/MapComponent.js -----
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import WebView from "react-native-webview";
+import * as Location from "expo-location";
+export default function MapComponent({ points = [], returnPoint = null }) {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          console.log("Permission to access location was denied");
+          return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        console.log("User location:", location);
+        setLocation(location.coords);
+        // Logování návratového bodu, pokud existuje
+        if (returnPoint) {
+          console.log(
+            `Return Point (0): Lat: ${returnPoint.latitude}, Lon: ${returnPoint.longitude}`
+          );
+        } else {
+          console.log("No Return Point set.");
+        }
+        // Logování bodů zájmu
+        if (points.length > 0) {
+          points.forEach((point, index) => {
+            console.log(
+              `Interest Point (${index + 1}): Lat: ${point.latitude}, Lon: ${
+                point.longitude
+              }`
+            );
+          });
+        } else {
+          console.log("No Interest Points available.");
+        }
+      } catch (error) {
+        setErrorMsg("Error getting location");
+        console.error("Error getting location:", error);
+      }
+    })();
+  }, [points, returnPoint]);
+  if (!location) {
+    console.log("Location not yet available, loading...");
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading map...</Text>
+        {errorMsg ? <Text>{errorMsg}</Text> : null}
+      </View>
+    );
+  }
+  const leafletHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+      <style>
+        #map {
+          width: 100%;
+          height: 100vh;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="map"></div>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      <script>
+        var map = L.map('map').setView([${location.latitude}, ${
+    location.longitude
+  }], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        var currentLocationIcon = L.icon({
+          iconUrl: '../assets/greenpoint.png',
+          iconSize: [40, 40],
+          iconAnchor: [20, 40],
+        });
+        var marker = L.marker([${location.latitude}, ${
+    location.longitude
+  }], {icon: currentLocationIcon}).addTo(map);
+        marker.bindPopup("<b>You are here!</b>").openPopup();
+        ${
+          returnPoint
+            ? `
+            var returnPointIcon = L.icon({
+              iconUrl: '../assets/redpoint.png',
+              iconSize: [40, 40],
+              iconAnchor: [20, 40],
+            });
+            var returnMarker = L.marker([${returnPoint.latitude}, ${returnPoint.longitude}], {icon: returnPointIcon}).addTo(map);
+            returnMarker.bindPopup("<b>Return Point</b>").openPopup();
+          `
+            : ""
+        }
+        ${points
+          .map(
+            (point, index) => `
+          var interestPointIcon = L.icon({
+            iconUrl: '../assets/bluepoint.png',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+          });
+          var marker${index} = L.marker([${point.latitude}, ${
+              point.longitude
+            }], {icon: interestPointIcon}).addTo(map);
+          marker${index}.bindPopup("<b>${
+              point.title || `Point ${index + 1}`
+            }</b><br>${point.description || ""}").openPopup();
+        `
+          )
+          .join("")}
+      </script>
+    </body>
+    </html>
+  `;
+  return (
+    <View style={styles.container}>
+      <WebView
+        originWhitelist={["*"]}
+        source={{ html: leafletHtml }}
+        style={{ marginTop: 20 }}
+      />
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
+
+----- File: components/MapHtml.js -----
+import React from "react";
+export default function MapHtml({
+  latitude,
+  longitude,
+  zoom,
+  points,
+  returnPoint,
+}) {
+  const leafletHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+      <style>
+        #map {
+          width: 100%;
+          height: 100vh;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="map"></div>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+      <script>
+        var map = L.map('map').setView([${latitude}, ${longitude}], ${zoom});
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        var currentIcon = L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+        var returnIcon = L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+        var interestIcon = L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+        var selectedInterestIcon = L.icon({
+          iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        });
+        var currentLocationMarker = L.marker([${latitude}, ${longitude}], {icon: currentIcon}).addTo(map);
+        currentLocationMarker.bindPopup("<b>You are here!</b>").openPopup();
+        ${
+          returnPoint
+            ? `var returnPointMarker = L.marker([${returnPoint.latitude}, ${returnPoint.longitude}], {icon: returnIcon}).addTo(map);
+               returnPointMarker.bindPopup("<b>${returnPoint.title}</b>").openPopup();`
+            : ""
+        }
+        ${points
+          .map(
+            (point, index) => `
+          var marker${index} = L.marker([${point.location.latitude}, ${
+              point.location.longitude
+            }], {icon: interestIcon}).addTo(map);
+          marker${index}.on('click', function() {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              markerIndex: ${index},
+              point: {
+                latitude: ${point.location.latitude},
+                longitude: ${point.location.longitude},
+                description: "${point.description}",
+                details: "${point.details || ""}",
+                image: "${point.image || ""}"
+              }
+            }));
+          });
+        `
+          )
+          .join("")}
+      </script>
+    </body>
+    </html>
+  `;
+  return leafletHtml;
+}
+
+
+----- File: components/MapModule.js -----
+import React, { useEffect, useState, useRef } from "react";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import WebView from "react-native-webview";
+import * as Location from "expo-location";
+export default function MapModule({
+  points = [],
+  returnPoint = null,
+  onMarkerClick,
+}) {
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const webViewRef = useRef(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+          console.log("Permission to access location was denied");
+          return;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        console.log("User location:", location);
+        setLocation(location.coords);
+        if (returnPoint) {
+          console.log(
+            `Return Point: Lat: ${returnPoint.latitude}, Lon: ${returnPoint.longitude}`
+          );
+        }
+        if (points.length > 0) {
+          points.forEach((point, index) => {
+            console.log(
+              `Interest Point (${index + 1}): Lat: ${
+                point.location.latitude
+              }, Lon: ${point.location.longitude}`
+            );
+          });
+        }
+      } catch (error) {
+        setErrorMsg("Error getting location");
+        console.error("Error getting location:", error);
+      }
+    })();
+  }, [points, returnPoint]);
+  if (!location) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading map...</Text>
+        {errorMsg ? <Text>{errorMsg}</Text> : null}
+      </View>
+    );
+  }
+  const leafletHtml = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+      #map {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+      var map = L.map('map').setView([${location.latitude}, ${
+    location.longitude
+  }], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+      var currentIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+      var selectedIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+      var interestIcon = L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+      });
+      var currentLocationMarker = L.marker([${location.latitude}, ${
+    location.longitude
+  }], {icon: currentIcon}).addTo(map);
+      currentLocationMarker.bindPopup("<b>You are here!</b>").openPopup();
+      var markers = [];
+      ${points
+        .map(
+          (point, index) => `
+        var marker${index} = L.marker([${point.location.latitude}, ${
+            point.location.longitude
+          }], {icon: interestIcon}).addTo(map);
+        marker${index}.on('click', function() {
+          markers.forEach(m => m.setIcon(interestIcon)); // Reset all markers to blue
+          marker${index}.setIcon(selectedIcon); // Set clicked marker to yellow
+          map.setView([${point.location.latitude}, ${
+            point.location.longitude
+          }], 13); // Center the map on the clicked marker
+          window.ReactNativeWebView.postMessage(JSON.stringify({
+            markerIndex: ${index},
+            point: {
+              latitude: ${point.location.latitude},
+              longitude: ${point.location.longitude},
+              description: "${point.description}",
+              details: "${point.details || ""}",
+              image: "${point.image || ""}"
+            }
+          }));
+        });
+        markers.push(marker${index});
+      `
+        )
+        .join("")}
+    </script>
+  </body>
+  </html>
+`;
+  return (
+    <WebView
+      ref={webViewRef}
+      originWhitelist={["*"]}
+      source={{ html: leafletHtml }}
+      style={{ flex: 1 }}
+      onMessage={(event) => {
+        const { markerIndex, point } = JSON.parse(event.nativeEvent.data);
+        if (onMarkerClick) {
+          onMarkerClick(markerIndex, point);
+        }
+      }}
+    />
+  );
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
+
+----- File: components/Task.js -----
+import React from "react";
+import { View, Text, Button } from "react-native";
+export default function Task({ task, onComplete, onDelete }) {
+  return (
+    <View>
+      <Text>{task.description}</Text>
+      <Button
+        title={task.completed ? "Zrušit splnění" : "Splnit"}
+        onPress={() => onComplete(task.id)}
+      />
+      <Button title="Smazat" onPress={() => onDelete(task.id)} />
+    </View>
+  );
+}
+
+
+----- File: components/TaskList.js -----
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, FlatList, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Task from "./Task";
+export default function TaskList() {
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    const loadTasks = async () => {
+      const storedTasks = await AsyncStorage.getItem("tasks");
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+    };
+    loadTasks();
+  }, []);
+  const handleTaskComplete = (id) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+    AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
+  const handleTaskDelete = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
+  };
+  const renderTask = ({ item }) => (
+    <Task
+      task={item}
+      onComplete={handleTaskComplete}
+      onDelete={handleTaskDelete}
+    />
+  );
+  return (
+    <View>
+      <Text style={styles.header}>Nedokončené úkoly</Text>
+      <FlatList
+        data={tasks.filter((task) => !task.completed)}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderTask}
+      />
+      <View style={styles.divider} />
+      <Text style={styles.header}>Dokončené úkoly</Text>
+      <FlatList
+        data={tasks.filter((task) => task.completed)}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderTask}
+      />
+    </View>
+  );
+}
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+  },
+  divider: {
+    borderBottomColor: "#bbb",
+    borderBottomWidth: 1,
+    marginVertical: 20,
+  },
+});
+
+
+----- File: components/ThemeContext.js -----
+// components/ThemeContext.js
+import React, { createContext, useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export const ThemeContext = createContext();
+export const ThemeProvider = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  useEffect(() => {
+    const loadTheme = async () => {
+      const savedTheme = await AsyncStorage.getItem("darkMode");
+      if (savedTheme !== null) {
+        setIsDarkMode(JSON.parse(savedTheme));
+      }
+    };
+    loadTheme();
+  }, []);
+  const toggleTheme = async () => {
+    setIsDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      AsyncStorage.setItem("darkMode", JSON.stringify(newMode));
+      return newMode;
+    });
+  };
+  return (
+    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+
+----- File: components/clearStorage.js -----
+// components/clearStorage.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
+export const clearStorage = async (setReturnPointSet) => {
+  try {
+    console.log("Clearing storage...");
+    await AsyncStorage.removeItem("returnPoint");
+    await AsyncStorage.removeItem("interestPoints");
+    const files = await FileSystem.readDirectoryAsync(
+      FileSystem.documentDirectory
+    );
+    for (let file of files) {
+      await FileSystem.deleteAsync(`${FileSystem.documentDirectory}${file}`);
+      console.log(`Deleted file: ${file}`);
+    }
+    setReturnPointSet(false);
+  } catch (error) {
+    console.error("Error clearing storage:", error);
+  }
+};
+
+
+----- File: components/exportData.js -----
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import JSZip from "jszip";
+import { Alert } from "react-native";
+export const exportData = async (setLoading) => {
+  try {
+    setLoading(true);
+    console.log("Starting export...");
+    // Načtení dat z AsyncStorage
+    const returnPoint = await AsyncStorage.getItem("returnPoint");
+    const storedPoints = await AsyncStorage.getItem("interestPoints");
+    const storedInventory = await AsyncStorage.getItem("inventory");
+    const storedObjects = await AsyncStorage.getItem("placedObjects");
+    let allPoints = [];
+    let totalDistance = 0;
+    // Přidání návratového bodu do exportovaných dat
+    if (returnPoint) {
+      allPoints.push({ ...JSON.parse(returnPoint), title: "Return Point" });
+    }
+    // Přidání bodů zájmu do exportovaných dat
+    if (storedPoints) {
+      const uniquePoints = new Set(); // Vytvoření množiny pro kontrolu duplicit
+      JSON.parse(storedPoints).forEach((point, index) => {
+        const imageName = point.image ? point.image.split("/").pop() : null;
+        const pointId = `${point.location.latitude},${point.location.longitude}`;
+        if (!uniquePoints.has(pointId)) {
+          // Kontrola, zda již bod nebyl přidán
+          allPoints.push({
+            ...point.location,
+            title: `Interest Point ${index + 1}`,
+            description: point.description,
+            detailedDescription: point.detailedDescription, // Přidání detailního popisu
+            image: point.image
+              ? `${FileSystem.documentDirectory}${imageName}`
+              : null,
+            timestamp: point.timestamp,
+          });
+          uniquePoints.add(pointId); // Přidání ID bodu do množiny
+        }
+      });
+    }
+    console.log("Fetched points data.");
+    // Výpočet celkové vzdálenosti mezi body
+    for (let i = 0; i < allPoints.length - 1; i++) {
+      const startPoint = allPoints[i];
+      const endPoint = allPoints[i + 1];
+      const distance = calculateDistance(
+        startPoint.latitude,
+        startPoint.longitude,
+        endPoint.latitude,
+        endPoint.longitude
+      );
+      totalDistance += distance;
+    }
+    // Příprava exportovaných dat
+    const exportData = {
+      points: allPoints,
+      totalDistance: totalDistance.toFixed(2),
+      inventory: storedInventory ? JSON.parse(storedInventory) : [],
+      placedObjects: storedObjects ? JSON.parse(storedObjects) : [],
+    };
+    // Vytvoření ZIP archivu
+    const zip = new JSZip();
+    zip.file("points.json", JSON.stringify(exportData, null, 2));
+    console.log("Packed points.json.");
+    // Přidání obrázků do ZIP archivu
+    for (let point of allPoints) {
+      if (point.image) {
+        const imageUri = point.image;
+        try {
+          const fileInfo = await FileSystem.getInfoAsync(imageUri);
+          if (fileInfo.exists) {
+            const imageContent = await FileSystem.readAsStringAsync(imageUri, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+            zip.file(imageUri.split("/").pop(), imageContent, {
+              base64: true,
+            });
+            console.log(`Packed image: ${imageUri.split("/").pop()}`);
+          } else {
+            console.log(`Image file not found: ${imageUri}`);
+          }
+        } catch (error) {
+          console.error(`Failed to add image: ${imageUri}`, error);
+        }
+      }
+    }
+    // Vytvoření názvu souboru s časovým razítkem
+    const date = new Date();
+    const fileName = `VentureOut_${date.getFullYear()}${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}_${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}${date.getMinutes().toString().padStart(2, "0")}.zip`;
+    // Vytvoření ZIP souboru s pevným názvem
+    const zipContent = await zip.generateAsync({ type: "base64" });
+    const zipUri = `${FileSystem.documentDirectory}${fileName}`;
+    await FileSystem.writeAsStringAsync(zipUri, zipContent, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    console.log(`ZIP file created: ${fileName}`);
+    // Sdílení ZIP souboru
+    await Sharing.shareAsync(zipUri);
+    console.log("Sharing ZIP file completed.");
+    Alert.alert("Úspěch", "Data byla úspěšně exportována!");
+  } catch (error) {
+    Alert.alert("Chyba", "Došlo k chybě při exportu dat.");
+    console.error("Export error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const toRad = (value) => (value * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon1 - lon2);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+
+----- File: components/importData.js -----
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
+import JSZip from "jszip";
+import * as DocumentPicker from "expo-document-picker";
+import { Alert } from "react-native";
+export const importData = async (setLoading) => {
+  try {
+    console.log("Starting import...");
+    const result = await DocumentPicker.getDocumentAsync({
+      type: "application/zip",
+    });
+    console.log("DocumentPicker result:", result);
+    if (result.canceled) {
+      console.log("Import cancelled by user.");
+      return;
+    }
+    if (!result.assets || result.assets.length === 0) {
+      console.error("No file URI returned from DocumentPicker.");
+      Alert.alert(
+        "Error",
+        "No file was selected or the operation was canceled."
+      );
+      return;
+    }
+    const fileUri = result.assets[0].uri;
+    console.log("ZIP file selected:", fileUri);
+    const zipContent = await FileSystem.readAsStringAsync(fileUri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    console.log("ZIP file read into base64.");
+    const zip = await JSZip.loadAsync(zipContent, { base64: true });
+    console.log("ZIP file loaded.");
+    const pointsFile = zip.file("points.json");
+    if (!pointsFile) {
+      Alert.alert("Error", "No points.json file found in the ZIP.");
+      console.log("No points.json found in ZIP.");
+      return;
+    }
+    const pointsData = JSON.parse(await pointsFile.async("text"));
+    console.log("points.json loaded:", pointsData);
+    // Vyčištění starých dat
+    await AsyncStorage.removeItem("interestPoints");
+    await AsyncStorage.removeItem("inventory");
+    await AsyncStorage.removeItem("placedObjects");
+    console.log("Cleared old interest points, inventory, and placed objects.");
+    const newPoints = [];
+    let importedCount = 0;
+    // Import bodů zájmu
+    for (let point of pointsData.points) {
+      if (
+        point.latitude &&
+        point.longitude &&
+        !isNaN(point.latitude) &&
+        !isNaN(point.longitude)
+      ) {
+        const formattedPoint = {
+          description: point.description || "",
+          image: point.image || null,
+          timestamp: point.timestamp || new Date().toISOString(),
+          location: {
+            latitude: parseFloat(point.latitude),
+            longitude: parseFloat(point.longitude),
+          },
+        };
+        if (point.image) {
+          const imageFile = zip.file(point.image.split("/").pop());
+          if (imageFile) {
+            try {
+              console.log("Found image in ZIP:", point.image.split("/").pop());
+              const imageData = await imageFile.async("base64");
+              const imageUri = `${FileSystem.documentDirectory}${point.image
+                .split("/")
+                .pop()}`;
+              console.log("Saving image to:", imageUri);
+              await FileSystem.writeAsStringAsync(imageUri, imageData, {
+                encoding: FileSystem.EncodingType.Base64,
+              });
+              formattedPoint.image = imageUri;
+              console.log(`Saved image to: ${imageUri}`);
+            } catch (error) {
+              console.error(
+                `Failed to write image: ${point.image.split("/").pop()}`,
+                error
+              );
+              formattedPoint.image = null;
+            }
+          } else {
+            console.log(
+              `Image file not found in ZIP: ${point.image.split("/").pop()}`
+            );
+            formattedPoint.image = null;
+          }
+        }
+        newPoints.push(formattedPoint);
+        importedCount++;
+        console.log(`Imported Point:`);
+        console.log(`Description: ${formattedPoint.description}`);
+        console.log(`Latitude: ${formattedPoint.location.latitude}`);
+        console.log(`Longitude: ${formattedPoint.location.longitude}`);
+        if (formattedPoint.image) {
+          console.log(`Image File: ${formattedPoint.image.split("/").pop()}`);
+        } else {
+          console.log("No image associated with this point.");
+        }
+      } else {
+        console.log("Skipping point with invalid coordinates:", point);
+      }
+    }
+    await AsyncStorage.setItem("interestPoints", JSON.stringify(newPoints));
+    console.log("New interest points saved.");
+    // Import inventáře
+    if (pointsData.inventory) {
+      await AsyncStorage.setItem(
+        "inventory",
+        JSON.stringify(pointsData.inventory)
+      );
+      console.log("Inventory imported and saved.");
+    } else {
+      console.log("No inventory data found in points.json.");
+    }
+    // Import skrytých objektů
+    if (pointsData.placedObjects) {
+      await AsyncStorage.setItem(
+        "placedObjects",
+        JSON.stringify(pointsData.placedObjects)
+      );
+      console.log("Placed objects imported and saved.");
+    } else {
+      console.log("No placed objects data found in points.json.");
+    }
+    Alert.alert(
+      "Import Completed",
+      `${importedCount} points with valid coordinates and descriptions were successfully imported.`
+    );
+  } catch (error) {
+    Alert.alert("Error", "An error occurred while importing data.");
+    console.error("Import error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+----- File: components/styles.js -----
+import { StyleSheet } from "react-native";
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+  },
+  label: {
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  message: {
+    fontSize: 18,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  buttonContainer: {
+    marginVertical: 10,
+  },
+  imageNavigationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  image: {
+    width: 300,
+    height: 300,
+    marginHorizontal: 10,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    marginBottom: 20,
+  },
+  coords: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+});
+export default styles;
+
+
+===== Directory: models =====
+----- File: models/Ability.js -----
+class Ability {
+  constructor(name, description) {
+    this.name = name;
+    this.description = description;
+  }
+}
+export default Ability;
+
+
+----- File: models/Armor.js -----
+class Armor {
+  constructor(name, defense, weight, allowedClasses, allowedRaces) {
+    this.name = name;
+    this.defense = defense; // Bonus k obraně
+    this.weight = weight; // Hmotnost brnění
+    this.allowedClasses = allowedClasses; // Povolání, která mohou brnění používat
+    this.allowedRaces = allowedRaces; // Rasy, které mohou brnění používat
+  }
+  canEquip(character) {
+    return (
+      (!this.allowedClasses || this.allowedClasses.includes(character.class)) &&
+      (!this.allowedRaces || this.allowedRaces.includes(character.race))
+    );
+  }
+  applyEffects(character) {
+    if (this.canEquip(character)) {
+      character.defense += this.defense;
+      console.log(`${this.name} equipped by ${character.name}.`);
+    } else {
+      console.log(`${character.name} cannot equip ${this.name}.`);
+    }
+  }
+  removeEffects(character) {
+    character.defense -= this.defense;
+    console.log(`${this.name} unequipped by ${character.name}.`);
+  }
+}
+export default Armor;
+
+
+----- File: models/Battle.js -----
+class Battle {
+  constructor(player, party, enemies) {
+    this.player = player; // Hlavní postava hráče
+    this.party = party; // Array of hired characters (najmuté postavy)
+    this.enemies = enemies; // Array of enemies (pole nepřátel)
+  }
+  // Zahájení souboje
+  startBattle() {
+    console.log("Souboj začíná!");
+    while (this.player.health > 0 && this.enemies.length > 0) {
+      this.takeTurn();
+    }
+    this.endBattle();
+  }
+  // Zpracování jednoho kola
+  takeTurn() {
+    // Nepřátelé útočí na party nebo hráče
+    for (const enemy of this.enemies) {
+      let target = this.getNextTarget();
+      console.log(`${enemy.name} útočí na ${target.name}`);
+      const attackResult = enemy.attack(target);
+      console.log(attackResult);
+      if (target.health <= 0) {
+        console.log(`${target.name} byl poražen!`);
+        this.removeDeadCharacter(target);
+      }
+    }
+    // Hráč a jeho party útočí na nepřátele
+    if (this.player.health > 0) {
+      const playerTarget = this.enemies[0]; // Hráč útočí na prvního nepřítele
+      console.log(`${this.player.name} útočí na ${playerTarget.name}`);
+      const playerAttackResult = this.player.attack(playerTarget);
+      console.log(playerAttackResult);
+      if (playerTarget.health <= 0) {
+        console.log(`${playerTarget.name} byl poražen!`);
+        this.enemies.shift(); // Odstranění poraženého nepřítele z pole
+      }
+    }
+  }
+  // Určení dalšího cíle (priorita: party > hráč)
+  getNextTarget() {
+    if (this.party.length > 0) {
+      return this.party[0]; // Najmutá postava jako první cíl
+    }
+    return this.player; // Pokud nejsou najmuté postavy, útok na hlavního hráče
+  }
+  // Odstranění poražené postavy nebo najmuté postavy
+  removeDeadCharacter(character) {
+    if (character === this.player) {
+      console.log("Hráč byl poražen. Konec hry.");
+    } else {
+      this.party = this.party.filter((member) => member !== character);
+      console.log(`Postava ${character.name} byla odstraněna z party.`);
+    }
+  }
+  // Ukončení souboje
+  endBattle() {
+    if (this.player.health > 0) {
+      console.log("Hráč vyhrál souboj!");
+    } else {
+      console.log("Hráč prohrál souboj.");
+    }
+    if (this.enemies.length === 0) {
+      console.log("Všichni nepřátelé byli poraženi!");
+    }
+  }
+}
+export default Battle;
+
+
+----- File: models/Book.js -----
+// models/Book.js
+class Book {
+  constructor() {
+    this.entries = [];
+  }
+  addEntry(entry) {
+    this.entries.push(entry);
+  }
+  getEntries() {
+    return this.entries;
+  }
+}
+export default Book;
+
+
+----- File: models/Character.js -----
+// models/Character.js
+import Races from "../data/Races";
+
+class Character {
+  constructor(
+    name,
+    race,
+    characterClass,
+    naturalTalents = [],
+    abilities = [],
+    inventory = []
+  ) {
+    this.name = name;
+    this.race = race;
+    this.characterClass = characterClass;
+    this.naturalTalents = naturalTalents;
+    this.abilities = abilities;
+    this.inventory = inventory;
+    this.rings = []; // Maximum 10 prstenů (5 na každé ruce)
+    this.level = 1;
+    this.gold = 0;
+    this.mana = 50;
+    this.health = 100;
+    this.healthRegen = 1;
+    this.manaRegen = 1;
+
+    // Nosnost a váhové limity
+    this.carryCapacity = 10; // Kapacita pro mošnu (max 10 kg)
+    this.armorAndWeaponCapacity = 20; // Kapacita pro zbroj a zbraně (závisí na úrovni postavy)
+
+    // Sloty pro vybavení
+    this.equipment = {
+      helmet: null,
+      chest: null,
+      legs: null,
+      boots: null,
+      gloves: null,
+      weapon: null,
+      shield: null,
+      // Další sloty podle potřeby...
+    };
+
+    this.stats = {
+      attack: 0,
+      defense: 0,
+    };
+
+    // Další vlastnosti
+    this.activePotions = [];
+
+    // Výpočet základních atributů postavy na základě rasy a povolání
+    const baseAttributes = this.calculateAttributes(race, characterClass);
+    this.strength = baseAttributes.strength;
+    this.defense = baseAttributes.defense;
+    this.attack = baseAttributes.attack;
+    this.speed = baseAttributes.speed;
+    this.luck = baseAttributes.luck;
+    this.courage = baseAttributes.courage;
+    this.magic = baseAttributes.magic || 0;
+  }
+
+  // Metoda pro výpočet atributů na základě rasy a povolání
+  calculateAttributes(race, characterClass) {
+    const baseAttributes = { ...Races[race.name] };
+    const classModifiers = this.getClassModifiers(characterClass);
+
+    return {
+      strength: baseAttributes.strength + classModifiers.strength,
+      defense: baseAttributes.defense + classModifiers.defense,
+      attack: baseAttributes.attack + classModifiers.attack,
+      speed: baseAttributes.speed + classModifiers.speed,
+      luck: baseAttributes.luck + classModifiers.luck,
+      courage: baseAttributes.courage + classModifiers.courage,
+      magic: (baseAttributes.magic || 0) + classModifiers.magic,
+    };
+  }
+
+  // Metoda pro získání modifikátorů povolání
+  getClassModifiers(characterClass) {
+    const modifiers = {
+      Warrior: { strength: 5, defense: 3, attack: 3, speed: -2, magic: -3 },
+      Mage: { strength: -3, defense: -2, attack: 1, speed: 0, magic: 7 },
+      Rogue: { strength: 0, defense: 0, attack: 2, speed: 5, magic: 0 },
+    };
+
+    return modifiers[characterClass] || {};
+  }
+
+  // Přidání prstenu (kontrola na max 10 prstenů)
+  addRing(ring) {
+    if (this.rings.length < 10) {
+      ring.applyEffects(this);
+      this.rings.push(ring);
+    } else {
+      console.log(`${this.name} cannot equip more than 10 rings.`);
+    }
+  }
+
+  // Sundání prstenu
+  removeRing(ring) {
+    ring.removeEffects(this);
+    this.rings = this.rings.filter((r) => r !== ring);
+  }
+
+  // Nasazení předmětu (univerzální)
+  equipItem(item) {
+    const currentWeight = this.calculateArmorAndWeaponLoad();
+    console.log(
+      `Current Weight: ${currentWeight}, Item Weight: ${item.weight}, Capacity: ${this.armorAndWeaponCapacity}`
+    );
+
+    if (currentWeight + item.weight <= this.armorAndWeaponCapacity) {
+      if (this.equipment[item.slot]) {
+        this.unequipItem(item.slot);
+      }
+      this.equipment[item.slot] = item;
+      item.applyEffects(this);
+      console.log(`${item.name} was equipped in the ${item.slot} slot.`);
+
+      this.updateCharacterStats(); // Aktualizujeme statistiky
+    } else {
+      console.log(`${item.name} is too heavy to equip.`);
+    }
+  }
+
+  // Sundání předmětu (univerzální)
+  unequipItem(slot) {
+    const item = this.equipment[slot];
+    if (item) {
+      item.removeEffects(this);
+      this.equipment[slot] = null;
+      console.log(`${item.name} was unequipped from the ${slot} slot.`);
+    } else {
+      console.log(`No item is equipped in the ${slot} slot.`);
+    }
+    this.updateCharacterStats(); // Aktualizujeme statistiky
+  }
+
+  // Přidání předmětu do mošny (kontrola váhového limitu)
+  addItemToInventory(item) {
+    const currentLoad = this.calculateInventoryLoad();
+    if (currentLoad + item.weight <= this.carryCapacity) {
+      this.inventory.push(item);
+      console.log(`${item.name} added to inventory.`);
+    } else {
+      console.log(`${item.name} is too heavy to carry!`);
+    }
+  }
+
+  // Výpočet aktuální zátěže pro zbroj a zbraně
+  calculateArmorAndWeaponLoad() {
+    return Object.values(this.equipment).reduce(
+      (total, item) => total + (item?.weight || 0),
+      0
+    );
+  }
+
+  // Výpočet aktuální zátěže pro mošnu
+  calculateInventoryLoad() {
+    return this.inventory.reduce(
+      (total, item) => total + (item.weight || 0),
+      0
+    );
+  }
+
+  updateCharacterStats() {
+    let attack = 0;
+    let defense = 0;
+
+    // Projdi všechny vybavené předměty a aktualizuj statistiky
+    for (let slot in this.equipment) {
+      const equippedItem = this.equipment[slot];
+      if (equippedItem) {
+        attack += equippedItem.properties.attackPoints || 0;
+        defense += equippedItem.properties.defensePoints || 0;
+      }
+    }
+
+    this.stats.attack = attack;
+    this.stats.defense = defense;
+
+    console.log("Updated stats:", this.stats);
+  }
+  calculatePower() {
+    return this.strength + this.defense + this.attack + this.speed;
+  }
+  // Souhrn postavy
+  getCharacterSummary() {
+    return `
+      Name: ${this.name}
+      Race: ${this.race.name}
+      Class: ${this.characterClass.name}
+      Level: ${this.level}
+      Strength: ${this.strength}
+      Defense: ${this.defense}
+      Attack: ${this.attack}
+      Speed: ${this.speed}
+      Luck: ${this.luck}
+      Courage: ${this.courage}
+      Gold: ${this.gold}
+      Mana: ${this.mana}
+      Health: ${this.health}
+      Health Regeneration: ${this.healthRegen}
+      Mana Regeneration: ${this.manaRegen}
+      Carry Capacity: ${this.carryCapacity}
+      Armor & Weapon Capacity: ${this.armorAndWeaponCapacity}
+      Inventory Load: ${this.calculateInventoryLoad()}
+      Armor & Weapon Load: ${this.calculateArmorAndWeaponLoad()}
+      Natural Talents: ${this.naturalTalents.join(", ")}
+      Abilities: ${this.abilities.map((a) => a.name).join(", ")}
+      Inventory: ${this.inventory.map((i) => i.name).join(", ")}
+      Rings: ${this.rings.map((r) => r.name).join(", ")}
+      Equipped Weapon: ${
+        this.equipment.weapon ? this.equipment.weapon.name : "None"
+      }
+      Helmet: ${this.equipment.helmet ? this.equipment.helmet.name : "None"}
+      Chest Armor: ${this.equipment.chest ? this.equipment.chest.name : "None"}
+      Leg Armor: ${this.equipment.legs ? this.equipment.legs.name : "None"}
+      Boots: ${this.equipment.boots ? this.equipment.boots.name : "None"}
+      Gloves: ${this.equipment.gloves ? this.equipment.gloves.name : "None"}
+    `;
+  }
+}
+
+export default Character;
+
+
+----- File: models/Class.js -----
+class Class {
+  constructor(name, hitDice, primaryAbility) {
+    this.name = name;
+    this.hitDice = hitDice; // Example: 'd8'
+    this.primaryAbility = primaryAbility; // Example: 'Strength'
+  }
+}
+export default Class;
+
+
+----- File: models/Crafting.js -----
+class Crafting {
+  constructor(skillLevel, resources) {
+    this.skillLevel = skillLevel; // Úroveň dovednosti v daném řemesle
+    this.resources = resources; // Suroviny dostupné pro výrobu
+  }
+  craftWeapon(character, weaponBlueprint) {
+    // Kontrola, zda postava má dostatečnou úroveň dovednosti
+    if (this.skillLevel < weaponBlueprint.requiredSkillLevel) {
+      console.log(
+        `${character.name} nemá dostatečnou úroveň k výrobě této zbraně.`
+      );
+      return null;
+    }
+    // Kontrola, zda jsou dostupné suroviny
+    for (const [resource, amount] of Object.entries(
+      weaponBlueprint.requiredResources
+    )) {
+      if (!this.resources[resource] || this.resources[resource] < amount) {
+        console.log(
+          `Nedostatečné množství ${resource} pro výrobu ${weaponBlueprint.name}.`
+        );
+        return null;
+      }
+    }
+    // Odebrání použitých surovin
+    for (const [resource, amount] of Object.entries(
+      weaponBlueprint.requiredResources
+    )) {
+      this.resources[resource] -= amount;
+    }
+    // Vytvoření nové zbraně
+    const craftedWeapon = new Weapon(
+      weaponBlueprint.name,
+      weaponBlueprint.attack + this.skillLevel, // Útok zvýšený podle úrovně dovednosti
+      weaponBlueprint.weight,
+      weaponBlueprint.type,
+      weaponBlueprint.allowedClasses,
+      weaponBlueprint.allowedRaces
+    );
+    // Přidání magických efektů, pokud je specifikováno
+    if (weaponBlueprint.magicEffects) {
+      craftedWeapon.magicEffects = weaponBlueprint.magicEffects;
+    }
+    console.log(`${character.name} vytvořil ${craftedWeapon.name}.`);
+    return craftedWeapon;
+  }
+}
+export default Crafting;
+
+
+----- File: models/Creature.js -----
+class Creature {
+  constructor(
+    name,
+    type,
+    level,
+    health,
+    attack,
+    defense,
+    speed,
+    abilities,
+    environment
+  ) {
+    this.name = name; // Název potvory, např. "Orc"
+    this.type = type; // Typ, např. "Humanoid", "Beast", "Undead"
+    this.level = level; // Úroveň potvory, která by měla odpovídat síle hráče
+    this.health = health; // Zdraví potvory
+    this.attack = attack; // Útočná síla
+    this.defense = defense; // Obranná síla
+    this.speed = speed; // Rychlost, může ovlivnit pořadí v boji
+    this.abilities = abilities; // Pole speciálních schopností, např. ["Fireball", "Heal"]
+    this.environment = environment; // Prostředí, kde se potvora vyskytuje, např. "Cave", "Forest"
+  }
+  // Metoda pro útok
+  attackTarget(target) {
+    const damage = Math.max(0, this.attack - target.defense);
+    target.health -= damage;
+    return `${this.name} attacks ${target.name} for ${damage} damage!`;
+  }
+  // Metoda pro zpracování poškození
+  takeDamage(amount) {
+    this.health -= amount;
+    if (this.health <= 0) {
+      this.health = 0;
+      return `${this.name} has been defeated!`;
+    }
+    return `${this.name} has ${this.health} health remaining.`;
+  }
+  // Metoda pro použití schopnosti
+  useAbility(ability, target) {
+    if (this.abilities.includes(ability)) {
+      // Implementace účinku schopnosti
+      // Například: zvýšení útoku, léčení, atd.
+      return `${this.name} uses ${ability} on ${target.name}!`;
+    }
+    return `${this.name} does not have the ability ${ability}.`;
+  }
+}
+
+
+----- File: models/CreatureTypes.js -----
+const CreatureTypes = {
+  Weak: {
+    Goblin: {
+      name: "Goblin",
+      type: "Humanoid",
+      baseLevel: 2,
+      baseHealth: 50,
+      baseAttack: 10,
+      baseDefense: 5,
+      baseSpeed: 9,
+      abilities: ["Stealth", "Backstab"],
+      environments: ["Cave", "Forest"],
+    },
+    Skeleton: {
+      name: "Skeleton",
+      type: "Undead",
+      baseLevel: 2,
+      baseHealth: 40,
+      baseAttack: 8,
+      baseDefense: 4,
+      baseSpeed: 6,
+      abilities: ["Fear", "Bone Armor"],
+      environments: ["Crypt", "Cave"],
+    },
+    Kobold: {
+      name: "Kobold",
+      type: "Humanoid",
+      baseLevel: 2,
+      baseHealth: 45,
+      baseAttack: 9,
+      baseDefense: 4,
+      baseSpeed: 8,
+      abilities: ["Trap Setting", "Dark Vision"],
+      environments: ["Cave", "Forest"],
+    },
+    Wolf: {
+      name: "Wolf",
+      type: "Beast",
+      baseLevel: 3,
+      baseHealth: 60,
+      baseAttack: 12,
+      baseDefense: 6,
+      baseSpeed: 10,
+      abilities: ["Pack Tactics", "Bite"],
+      environments: ["Forest", "Mountain"],
+    },
+  },
+  Medium: {
+    Orc: {
+      name: "Orc",
+      type: "Humanoid",
+      baseLevel: 5,
+      baseHealth: 120,
+      baseAttack: 18,
+      baseDefense: 12,
+      baseSpeed: 8,
+      abilities: ["Berserk", "Roar"],
+      environments: ["Cave", "Forest"],
+    },
+    Troll: {
+      name: "Troll",
+      type: "Giant",
+      baseLevel: 6,
+      baseHealth: 180,
+      baseAttack: 20,
+      baseDefense: 15,
+      baseSpeed: 7,
+      abilities: ["Regeneration", "Smash"],
+      environments: ["Swamp", "Forest"],
+    },
+    Zombie: {
+      name: "Zombie",
+      type: "Undead",
+      baseLevel: 4,
+      baseHealth: 80,
+      baseAttack: 14,
+      baseDefense: 10,
+      baseSpeed: 4,
+      abilities: ["Undead Fortitude", "Bite"],
+      environments: ["Crypt", "Graveyard"],
+    },
+    Hobgoblin: {
+      name: "Hobgoblin",
+      type: "Humanoid",
+      baseLevel: 5,
+      baseHealth: 110,
+      baseAttack: 16,
+      baseDefense: 10,
+      baseSpeed: 7,
+      abilities: ["Tactical Leader", "Martial Advantage"],
+      environments: ["Cave", "Fortress"],
+    },
+  },
+  Strong: {
+    YoungDragon: {
+      name: "Young Dragon",
+      type: "Dragon",
+      baseLevel: 10,
+      baseHealth: 300,
+      baseAttack: 25,
+      baseDefense: 20,
+      baseSpeed: 10,
+      abilities: ["Fire Breath", "Flight"],
+      environments: ["Mountain", "Cave"],
+    },
+    Demon: {
+      name: "Demon",
+      type: "Fiend",
+      baseLevel: 9,
+      baseHealth: 250,
+      baseAttack: 30,
+      baseDefense: 18,
+      baseSpeed: 9,
+      abilities: ["Hellfire", "Teleport"],
+      environments: ["Hellscape", "Ruin"],
+    },
+    Lich: {
+      name: "Lich",
+      type: "Undead",
+      baseLevel: 12,
+      baseHealth: 200,
+      baseAttack: 22,
+      baseDefense: 15,
+      baseSpeed: 8,
+      abilities: ["Necromancy", "Undying Magic"],
+      environments: ["Crypt", "Tower"],
+    },
+    Behemoth: {
+      name: "Behemoth",
+      type: "Beast",
+      baseLevel: 11,
+      baseHealth: 350,
+      baseAttack: 28,
+      baseDefense: 25,
+      baseSpeed: 6,
+      abilities: ["Earthquake", "Stomp"],
+      environments: ["Mountain", "Plain"],
+    },
+  },
+  Boss: {
+    ElderDragon: {
+      name: "Elder Dragon",
+      type: "Dragon",
+      baseLevel: 15,
+      baseHealth: 500,
+      baseAttack: 35,
+      baseDefense: 30,
+      baseSpeed: 12,
+      abilities: ["Fire Breath", "Flight", "Ancient Wisdom"],
+      environments: ["Mountain", "Cave"],
+    },
+    Beholder: {
+      name: "Beholder",
+      type: "Aberration",
+      baseLevel: 14,
+      baseHealth: 400,
+      baseAttack: 20,
+      baseDefense: 18,
+      baseSpeed: 8,
+      abilities: ["Anti-Magic Cone", "Eye Rays"],
+      environments: ["Underdark", "Cave"],
+    },
+    Balrog: {
+      name: "Balrog",
+      type: "Fiend",
+      baseLevel: 15,
+      baseHealth: 450,
+      baseAttack: 40,
+      baseDefense: 28,
+      baseSpeed: 10,
+      abilities: ["Flaming Whip", "Shadow and Flame"],
+      environments: ["Cave", "Ruin"],
+    },
+    UndeadCommander: {
+      name: "Undead Commander",
+      type: "Undead",
+      baseLevel: 13,
+      baseHealth: 380,
+      baseAttack: 30,
+      baseDefense: 20,
+      baseSpeed: 7,
+      abilities: ["Necromancy", "Command Undead"],
+      environments: ["Crypt", "Graveyard"],
+    },
+  },
+};
+
+
+----- File: models/InventoryItem.js -----
+class InventoryItem {
+  constructor(name, description, weight) {
+    this.name = name;
+    this.description = description;
+    this.weight = weight; // Optional: could be used for encumbrance systems
+  }
+}
+export default InventoryItem;
+
+
+----- File: models/Potion.js -----
+class Potion {
+  constructor(name, effects, duration) {
+    this.name = name;
+    this.effects = effects; // Objekt obsahující různé účinky, např. { health: +40, luck: +5, poison: -20 }
+    this.duration = duration || 1800; // Trvání účinku v sekundách (např. 1800 sekund = 30 minut)
+    this.startTime = null; // Čas, kdy byl lektvar použit
+  }
+  use(character) {
+    this.startTime = Date.now();
+    // Aplikace efektů na postavu
+    for (const [key, value] of Object.entries(this.effects)) {
+      character[key] += value;
+    }
+    console.log(`${character.name} used ${this.name}.`);
+  }
+  removeEffects(character) {
+    // Odstranění efektů po vypršení trvání
+    for (const [key, value] of Object.entries(this.effects)) {
+      character[key] -= value;
+    }
+    console.log(`${this.name} effects have worn off for ${character.name}.`);
+  }
+  hasExpired() {
+    // Kontrola, zda uplynul čas trvání lektvaru
+    if (this.startTime) {
+      const elapsedTime = (Date.now() - this.startTime) / 1000;
+      return elapsedTime >= this.duration;
+    }
+    return false;
+  }
+}
+export default Potion;
+
+
+----- File: models/Ring.js -----
+class Ring {
+  constructor(name, description, effects, allowedClasses, allowedRaces) {
+    this.name = name;
+    this.description = description;
+    this.effects = effects; // Např. { strength: +2, luck: +5, regenMana: +3 }
+    this.allowedClasses = allowedClasses; // Např. ['Warrior', 'Mage']
+    this.allowedRaces = allowedRaces; // Např. ['Elf', 'Human']
+  }
+  canEquip(character) {
+    return (
+      (!this.allowedClasses || this.allowedClasses.includes(character.class)) &&
+      (!this.allowedRaces || this.allowedRaces.includes(character.race))
+    );
+  }
+  applyEffects(character) {
+    if (this.canEquip(character)) {
+      Object.keys(this.effects).forEach((effect) => {
+        character[effect] += this.effects[effect];
+      });
+      console.log(`${this.name} equipped by ${character.name}.`);
+    } else {
+      console.log(`${character.name} cannot equip ${this.name}.`);
+    }
+  }
+  removeEffects(character) {
+    Object.keys(this.effects).forEach((effect) => {
+      character[effect] -= this.effects[effect];
+    });
+    console.log(`${this.name} unequipped by ${character.name}.`);
+  }
+}
+export default Ring;
+
+
+----- File: models/Weapon.js -----
+class Weapon {
+  constructor(name, attack, weight, type, allowedClasses, allowedRaces) {
+    this.name = name;
+    this.attack = attack; // Bonus k útoku
+    this.weight = weight; // Hmotnost zbraně
+    this.type = type; // Např. "jednoruční" nebo "obouruční"
+    this.allowedClasses = allowedClasses; // Povolání, která mohou zbraň používat
+    this.allowedRaces = allowedRaces; // Rasy, které mohou zbraň používat
+  }
+  canEquip(character) {
+    return (
+      (!this.allowedClasses || this.allowedClasses.includes(character.class)) &&
+      (!this.allowedRaces || this.allowedRaces.includes(character.race))
+    );
+  }
+  applyEffects(character) {
+    if (this.canEquip(character)) {
+      character.attack += this.attack;
+      console.log(`${this.name} equipped by ${character.name}.`);
+    } else {
+      console.log(`${character.name} cannot equip ${this.name}.`);
+    }
+  }
+  removeEffects(character) {
+    character.attack -= this.attack;
+    console.log(`${this.name} unequipped by ${character.name}.`);
+  }
+}
+export default Weapon;
+
+
+----- File: models/WeaponBlueprint.js -----
+const WeaponBlueprints = {
+  enchantedSword: {
+    name: "Enchanted Sword",
+    requiredSkillLevel: 5, // Potřebná úroveň dovednosti
+    requiredResources: {
+      iron: 10,
+      magicGem: 2,
+    },
+    attack: 20,
+    weight: 15,
+    type: "jednoruční",
+    allowedClasses: ["Warrior", "Paladin"],
+    allowedRaces: ["Human", "Elf"],
+    magicEffects: {
+      fireDamage: 10, // Přidání magického ohnivého poškození
+      durability: 100, // Trvanlivost zbraně
+    },
+  },
+};
+export default WeaponBlueprints;
+
+
+----- File: models/characterModel copy.js -----
+// components/characterModel.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export const createCharacter = async (character) => {
+  try {
+    await AsyncStorage.setItem("character", JSON.stringify(character));
+    console.log("Character created:", character);
+  } catch (error) {
+    console.error("Failed to create character:", error);
+  }
+};
+export const getCharacter = async () => {
+  try {
+    const character = await AsyncStorage.getItem("character");
+    return character ? JSON.parse(character) : null;
+  } catch (error) {
+    console.error("Failed to get character:", error);
+    return null;
+  }
+};
+// Example of a character model
+export const defaultCharacter = {
+  name: "Unnamed",
+  race: "Human",
+  class: "Warrior",
+  level: 1,
+  strength: 10,
+  health: 100,
+  mana: 50,
+  armor: 5,
+};
+
+
+----- File: models/characterModel.js -----
+
+
