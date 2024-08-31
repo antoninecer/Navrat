@@ -1,3 +1,4 @@
+// HomeScreen.js
 import React, { useEffect, useState } from "react";
 import { View, Text, Button, Alert, ImageBackground } from "react-native";
 import styles from "../components/styles"; // Import stylů
