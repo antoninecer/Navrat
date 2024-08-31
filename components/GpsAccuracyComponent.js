@@ -48,6 +48,14 @@ export default function GpsAccuracyComponent({ onLocationDetermined }) {
         },
         (newLocation) => {
           const { latitude, longitude } = newLocation.coords;
+
+          // Validace, aby souřadnice nebyly nesmyslné
+          if (!latitude || !longitude || (latitude === 0 && longitude === 0)) {
+            setStatus(t("gps_error_invalid_coords"));
+            setColor("red");
+            return;
+          }
+
           const roundedCoords = {
             latitude: roundTo(latitude, 6),
             longitude: roundTo(longitude, 6),

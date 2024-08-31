@@ -1,9 +1,15 @@
 import "dotenv/config";
+
+//console.log(
+//  "GOOGLE_MAPS_API_KEY_ANDROID: ",
+//  process.env.GOOGLE_MAPS_API_KEY_ANDROID
+//);
+
 export default {
   expo: {
     name: "Return",
     slug: "Return",
-    version: "1.0.9",
+    version: "1.0.10",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
