@@ -3,7 +3,7 @@ export default {
   expo: {
     name: "Return",
     slug: "Return",
-    version: "1.0.7",
+    version: "1.0.8",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -21,9 +21,6 @@ export default {
           "This app uses your camera to take photos of interesting points.",
       },
       bundleIdentifier: "com.antoninecer.Return",
-      config: {
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY_IOS,
-      },
     },
     android: {
       permissions: ["ACCESS_FINE_LOCATION", "CAMERA"],
@@ -32,16 +29,13 @@ export default {
         backgroundColor: "#ffffff",
       },
       package: "com.antoninecer.Return",
-      config: {
-        googleMaps: {
-          apiKey: process.env.GOOGLE_MAPS_API_KEY_ANDROID,
-        },
-      },
     },
     web: {
       favicon: "./assets/favicon.png",
     },
     extra: {
+      googleMapsApiKeyAndroid: process.env.GOOGLE_MAPS_API_KEY_ANDROID,
+      googleMapsApiKeyIos: process.env.GOOGLE_MAPS_API_KEY_IOS,
       eas: {
         projectId: "272b283e-70c2-4382-ad46-57c13fd9acde",
       },

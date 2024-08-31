@@ -1,9 +1,8 @@
 {
   "name": "return",
   "version": "1.0.0",
-  "main": "expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web"
@@ -28,9 +27,11 @@
     "intl-pluralrules": "^2.0.1",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
-    "react": "^18.2.0",
+    "react": "18.2.0",
     "react-i18next": "^15.0.1",
-    "react-native": "^0.74.5",
+    "react-native": "0.74.5",
+    "react-native-config": "^1.5.3",
+    "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.16.1",
     "react-native-maps": "^1.14.0",
     "react-native-reanimated": "^3.10.1",

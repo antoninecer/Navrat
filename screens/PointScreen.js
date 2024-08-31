@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import { averageGpsCoordinates } from "../components/gpsUtils";
+import Constants from "expo-constants"; // Importing Constants to get API key
 
 export default function PointScreen({ navigation, route }) {
   const { t } = useTranslation();
@@ -85,7 +86,6 @@ export default function PointScreen({ navigation, route }) {
           <View style={styles.controls}>
             <Button title={t("recalculate_gps")} onPress={recalculateGps} />
             <Button title={t("save_point")} onPress={saveAndGoBack} />{" "}
-            {/* Upraveno tlačítko */}
             <Button title={t("go_back")} onPress={() => navigation.goBack()} />
           </View>
         </View>

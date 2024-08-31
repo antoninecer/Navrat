@@ -11,6 +11,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants"; // Importing Constants to get API key
 
 export default function ReturnPointScreen({ navigation }) {
   const [location, setLocation] = useState(null);
@@ -18,6 +19,8 @@ export default function ReturnPointScreen({ navigation }) {
   const [selectedPointData, setSelectedPointData] = useState(null);
   const [distanceToSelected, setDistanceToSelected] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const googleMapsApiKey = Constants.manifest.extra.googleMapsApiKeyAndroid; // Get API key from app.config.js
 
   useEffect(() => {
     const getLocationAndPoints = async () => {

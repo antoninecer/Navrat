@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Button, Alert, ImageBackground } from "react-native";
 import styles from "../components/styles"; // Import stylů
 import { useFocusEffect } from "@react-navigation/native";
-import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next"; // Použij useTranslation hook
 
@@ -11,6 +10,17 @@ export default function HomeScreen({ navigation }) {
 
   const [returnPointSet, setReturnPointSet] = useState(false);
   const [characterSummary, setCharacterSummary] = useState(null);
+  const [selectedMode, setSelectedMode] = useState("Herní režim");
+
+  useEffect(() => {
+    const fetchMode = async () => {
+      const mode = await AsyncStorage.getItem("selectedMode");
+      if (mode) {
+        setSelectedMode(mode);
+      }
+    };
+    fetchMode();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -45,39 +55,6 @@ export default function HomeScreen({ navigation }) {
     } catch (error) {
       console.error("Failed to load character summary", error);
     }
-  };
-
-  const setReturnPoint = async () => {
-    showConfirmationDialog(
-      t("set_return_point_title"),
-      t("set_return_point_message"),
-      async () => {
-        try {
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== "granted") {
-            Alert.alert(t("permission_denied"), t("permission_denied_message"));
-            return;
-          }
-          let currentLocation = await Location.getCurrentPositionAsync({});
-          const returnPoint = {
-            latitude: currentLocation.coords.latitude,
-            longitude: currentLocation.coords.longitude,
-            title: t("return_point"),
-          };
-          await AsyncStorage.setItem(
-            "returnPoint",
-            JSON.stringify(returnPoint)
-          );
-          console.log("Return point saved:", returnPoint);
-          setReturnPointSet(true);
-          Alert.alert(t("saved"), t("return_point_saved_message"));
-          navigation.navigate("ReturnPointScreen"); // Navigace na ReturnPointScreen
-        } catch (error) {
-          console.error("Error setting return point:", error);
-          Alert.alert(t("error"), t("error_setting_return_point"));
-        }
-      }
-    );
   };
 
   const showConfirmationDialog = (title, message, onConfirm) => {
@@ -124,18 +101,14 @@ export default function HomeScreen({ navigation }) {
         />
       </View>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title={t("actions")}
-          onPress={() => navigation.navigate("Actions Menu")}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title={t("view_map")}
-          onPress={() => navigation.navigate("DynamicMap")}
-        />
-      </View>
+      {(selectedMode === "Admin režim" || selectedMode === "Herní režim") && (
+        <View style={styles.buttonContainer}>
+          <Button
+            title={t("actions")}
+            onPress={() => navigation.navigate("Actions Menu")}
+          />
+        </View>
+      )}
       <View style={styles.buttonContainer}>
         <Button
           title={t("view_photos")}

@@ -3,21 +3,27 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import JSZip from "jszip";
 import { Alert } from "react-native";
+
 export const exportData = async (setLoading) => {
   try {
     setLoading(true);
     console.log("Starting export...");
+
     // Načtení dat z AsyncStorage
     const returnPoint = await AsyncStorage.getItem("returnPoint");
     const storedPoints = await AsyncStorage.getItem("interestPoints");
     const storedInventory = await AsyncStorage.getItem("inventory");
     const storedObjects = await AsyncStorage.getItem("placedObjects");
+    const selectedMode = await AsyncStorage.getItem("selectedMode");
+
     let allPoints = [];
     let totalDistance = 0;
+
     // Přidání návratového bodu do exportovaných dat
     if (returnPoint) {
       allPoints.push({ ...JSON.parse(returnPoint), title: "Return Point" });
     }
+
     // Přidání bodů zájmu do exportovaných dat
     if (storedPoints) {
       const uniquePoints = new Set(); // Vytvoření množiny pro kontrolu duplicit
@@ -40,7 +46,9 @@ export const exportData = async (setLoading) => {
         }
       });
     }
+
     console.log("Fetched points data.");
+
     // Výpočet celkové vzdálenosti mezi body
     for (let i = 0; i < allPoints.length - 1; i++) {
       const startPoint = allPoints[i];
@@ -53,17 +61,21 @@ export const exportData = async (setLoading) => {
       );
       totalDistance += distance;
     }
+
     // Příprava exportovaných dat
     const exportData = {
       points: allPoints,
       totalDistance: totalDistance.toFixed(2),
       inventory: storedInventory ? JSON.parse(storedInventory) : [],
       placedObjects: storedObjects ? JSON.parse(storedObjects) : [],
+      selectedMode: selectedMode || "Herní režim",
     };
+
     // Vytvoření ZIP archivu
     const zip = new JSZip();
     zip.file("points.json", JSON.stringify(exportData, null, 2));
     console.log("Packed points.json.");
+
     // Přidání obrázků do ZIP archivu
     for (let point of allPoints) {
       if (point.image) {
@@ -86,6 +98,7 @@ export const exportData = async (setLoading) => {
         }
       }
     }
+
     // Vytvoření názvu souboru s časovým razítkem
     const date = new Date();
     const fileName = `VentureOut_${date.getFullYear()}${(date.getMonth() + 1)
@@ -94,6 +107,7 @@ export const exportData = async (setLoading) => {
       .getHours()
       .toString()
       .padStart(2, "0")}${date.getMinutes().toString().padStart(2, "0")}.zip`;
+
     // Vytvoření ZIP souboru s pevným názvem
     const zipContent = await zip.generateAsync({ type: "base64" });
     const zipUri = `${FileSystem.documentDirectory}${fileName}`;
@@ -101,6 +115,7 @@ export const exportData = async (setLoading) => {
       encoding: FileSystem.EncodingType.Base64,
     });
     console.log(`ZIP file created: ${fileName}`);
+
     // Sdílení ZIP souboru
     await Sharing.shareAsync(zipUri);
     console.log("Sharing ZIP file completed.");
@@ -112,6 +127,7 @@ export const exportData = async (setLoading) => {
     setLoading(false);
   }
 };
+
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const toRad = (value) => (value * Math.PI) / 180;
   const R = 6371;

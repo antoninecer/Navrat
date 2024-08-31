@@ -13,13 +13,17 @@ import styles from "../components/styles";
 import { importData } from "../components/importData";
 import { exportData } from "../components/exportData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function SettingsScreen({ navigation }) {
   const [selectedMode, setSelectedMode] = useState("Herní režim");
   const [loading, setLoading] = useState(false);
-  const handleModeChange = (mode) => {
+
+  const handleModeChange = async (mode) => {
     setSelectedMode(mode);
+    await AsyncStorage.setItem("selectedMode", mode);
     Alert.alert("Režim změněn", `Aktuální režim je nyní: ${mode}`);
   };
+
   const deleteAllData = async () => {
     Alert.alert(
       "Smazat všechna data?",
@@ -42,6 +46,7 @@ export default function SettingsScreen({ navigation }) {
       { cancelable: true }
     );
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings</Text>
@@ -97,6 +102,7 @@ export default function SettingsScreen({ navigation }) {
     </View>
   );
 }
+
 // Přidání stylů pro tlačítko About
 const localStyles = StyleSheet.create({
   aboutButton: {

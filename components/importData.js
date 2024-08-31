@@ -3,6 +3,7 @@ import * as FileSystem from "expo-file-system";
 import JSZip from "jszip";
 import * as DocumentPicker from "expo-document-picker";
 import { Alert } from "react-native";
+
 export const importData = async (setLoading) => {
   try {
     console.log("Starting import...");
@@ -38,13 +39,16 @@ export const importData = async (setLoading) => {
     }
     const pointsData = JSON.parse(await pointsFile.async("text"));
     console.log("points.json loaded:", pointsData);
+
     // Vyčištění starých dat
     await AsyncStorage.removeItem("interestPoints");
     await AsyncStorage.removeItem("inventory");
     await AsyncStorage.removeItem("placedObjects");
     console.log("Cleared old interest points, inventory, and placed objects.");
+
     const newPoints = [];
     let importedCount = 0;
+
     // Import bodů zájmu
     for (let point of pointsData.points) {
       if (
@@ -108,6 +112,7 @@ export const importData = async (setLoading) => {
     }
     await AsyncStorage.setItem("interestPoints", JSON.stringify(newPoints));
     console.log("New interest points saved.");
+
     // Import inventáře
     if (pointsData.inventory) {
       await AsyncStorage.setItem(
@@ -118,6 +123,7 @@ export const importData = async (setLoading) => {
     } else {
       console.log("No inventory data found in points.json.");
     }
+
     // Import skrytých objektů
     if (pointsData.placedObjects) {
       await AsyncStorage.setItem(
@@ -128,6 +134,11 @@ export const importData = async (setLoading) => {
     } else {
       console.log("No placed objects data found in points.json.");
     }
+
+    // Import režimu
+    const selectedMode = pointsData.selectedMode || "Herní režim";
+    await AsyncStorage.setItem("selectedMode", selectedMode);
+
     Alert.alert(
       "Import Completed",
       `${importedCount} points with valid coordinates and descriptions were successfully imported.`
